@@ -1,5 +1,5 @@
 const express = require("express");
-const User = require("../models/user");
+const User = require("../models/User");
 const router = new express.Router();
 const auth = require("../middleware/jwt");
 
@@ -24,16 +24,16 @@ router.post("/signup", async (req, res) => {
     const token = await user.genrateAuthToken(); //push Token in the deatabase
     res.status(201).send({ user, token });
   } catch (e) {
-    res.status(400).send(e);
+    res.send(e);
   }
 });
 
 // @type    POST
 // @route   /login
 // @desc    route for login of users
-// @access  PUBLIC
+// @access  PRIVATE
 
-router.post("/login", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const user = await User.findByCredentials(
       req.body.email,
@@ -44,17 +44,96 @@ router.post("/login", async (req, res) => {
     res.cookie("token", token); //Send token in the Cookies
     res.redirect("/profile");
   } catch (e) {
-    res.status(400).send(e);
+    res.status(400).render("index", {
+      errorMsg: "unable to login"
+    });
   }
 });
 
 // @type    GET
-// @route   /users/me
+// @route   /profile
 // @desc    route for get profile
 // @access  PRIVATE
 
-router.get("/profile", auth, (req, res) => {
-  res.render("profile");
+router.get("/profile", auth, async (req, res) => {
+  try {
+    const _id = req.user._id;
+    const user = await User.findOne({ _id });
+
+    const username = user.username;
+    const name = user.name;
+    const email = user.email;
+    const website = user.website;
+    const country = user.country;
+    const languages = user.languages;
+    const age = user.age;
+    const workrole = user.workrole;
+
+    res.render("profile", {
+      username,
+      name,
+      email,
+      website,
+      country,
+      languages,
+      age,
+      workrole
+    });
+  } catch (e) {
+    res.status(400).send(e);
+  }
+});
+
+// @type    POST
+// @route   /profile
+// @desc    route for Upadte Profile
+// @access  PRIVATE
+
+router.post("/profile", auth, async (req, res) => {
+  const updates = Object.keys(req.body);
+  const allowedUpdates = [
+    "username",
+    "name",
+    "email",
+    "website",
+    "country",
+    "languages",
+    "age",
+    "workrole"
+  ];
+  const isValidOperation = updates.every(update =>
+    allowedUpdates.includes(update)
+  );
+
+  if (!isValidOperation) {
+    return res.status(400).send("Invalid Opertaion!");
+  }
+
+  try {
+    updates.forEach(update => (req.user[update] = req.body[update]));
+    await req.user.save();
+    res.redirect("/profile");
+  } catch (e) {
+    res.status(500).send("unable to update " + e);
+  }
+});
+
+// @type    POST
+// @route   /logout
+// @desc    route for Logut
+// @access  PRIVATE
+
+router.post("/logout", auth, async (req, res) => {
+  try {
+    req.user.tokens = req.user.tokens.filter(token => {
+      return token.token !== req.token;
+    });
+
+    await req.user.save();
+    res.redirect("/");
+  } catch (e) {
+    res.status(500).send();
+  }
 });
 
 module.exports = router;

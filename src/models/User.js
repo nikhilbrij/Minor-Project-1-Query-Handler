@@ -27,16 +27,28 @@ const userSchema = new mongoose.Schema({
     }
   },
 
+  website: {
+    type: String
+  },
+  country: {
+    type: String
+  },
+  languages: {
+    type: [String],
+    required: true
+  },
+
   password: {
     type: String,
-    required: true,
-    trim: true,
-    minlength: 7,
-    validate(value) {
-      if (value.toLowerCase().includes("password")) {
-        throw new Error(`Password does not contain "password`);
-      }
-    }
+    trim: true
+  },
+  age: {
+    type: Number,
+    trim: true
+  },
+
+  workrole: {
+    type: String
   },
 
   tokens: [
@@ -87,5 +99,5 @@ userSchema.pre("save", async function(next) {
   next();
 });
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model("myPerson", userSchema);
 module.exports = User;

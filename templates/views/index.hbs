@@ -17,7 +17,37 @@
 
 <body>
 
-  {{>nav}}
+  <section id="nav-bar">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <a class="navbar-brand" href="#"><img src="images/logo2.png" alt=""></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item ">
+            <a class="nav-link" href="#top">HOME </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#features">FEATURES</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about-us">ABOUT US</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#team">TEAM</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#footer">CONTACT</a>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#login">Login</button>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </section>
 
   <!-------------- HOME SECTION --------------->
   <section id="home">
@@ -162,21 +192,23 @@
   {{>footer}}
 
   <!-------------- LOGIN --------------->
+
   <div class="modal fade text-dark" id="login">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button class="btn btn-primary signup-button" data-toggle="modal" data-target="#signup"
-            data-dismiss="modal">signup here</button>
+            data-dismiss="modal"><i class="glyphicon glyphicon-ok"></i> signup here</button>
           <button class="close" data-dismiss="modal">
             <span>&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <form action="/login" method="POST">
+          <form action="/" method="POST">
             <div class="form-group">
               <label for="email">Email</label>
               <input type="email" name="email" placeholder="email" class="form-control">
+              <p>{{errorMsg}}</p>
             </div>
             <div class="form-group">
               <label for="password">Password</label>
@@ -191,6 +223,7 @@
       </div>
     </div>
   </div>
+
 
   <!-------------- SIGNUP --------------->
   <div class="modal fade text-dark" id="signup">

@@ -9,7 +9,7 @@ const userRouter = require("./router/user");
 //Define Express
 const app = express();
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 5000;
 
 //Define path for Express config
 const publiceDirectoryPath = path.join(__dirname, "../public");
