@@ -1,4 +1,5 @@
 const path = require("path");
+const multer = require("multer");
 const express = require("express");
 const bodyparser = require("body-parser");
 const hbs = require("hbs");
@@ -27,6 +28,7 @@ app.use(bodyparser.json());
 
 //middleware for Cookie Parser
 app.use(cookieParser());
+app.use(multer().single("profilepic"));
 
 //public directory
 app.use(express.static(publiceDirectoryPath));

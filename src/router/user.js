@@ -1,8 +1,9 @@
 const express = require("express");
+const sharp = require("sharp");
+const multer = require("multer");
 const User = require("../models/User");
 const router = new express.Router();
 const auth = require("../middleware/jwt");
-
 // @type    GET
 // @route   /
 // @desc    route for home page
@@ -77,7 +78,8 @@ router.get("/profile", auth, async (req, res) => {
       country,
       languages,
       age,
-      workrole
+      workrole,
+      _id
     });
   } catch (e) {
     res.status(400).send(e);
@@ -133,6 +135,62 @@ router.post("/logout", auth, async (req, res) => {
     res.redirect("/");
   } catch (e) {
     res.status(500).send();
+  }
+});
+
+//Multer Setup
+upload = multer({
+  limits: {
+    fileSize: 1000000
+  },
+  fileFilter(req, file, cb) {
+    if (!req.file.originalname.match(/\.(png|jpg|jpeg)$/)) {
+      return cb(new Error("please upload an image"));
+    }
+    cb(undefined, true);
+  }
+});
+
+// @type    POST
+// @route   /profile/upload
+// @desc    route for upload profilepic
+// @access  PRIVATE
+
+router.post(
+  "/profile/upload",
+  auth,
+  upload.single("profilepic"),
+  async (req, res) => {
+    const buffer = await sharp(req.file.buffer)
+      .resize({ width: 250, height: 250 })
+      .png()
+      .toBuffer();
+
+    req.user.profilepic = buffer;
+    await req.user.save();
+    res.redirect("/profile");
+  },
+  (error, req, res, next) => {
+    res.status(400).send({ error: error.message });
+  }
+);
+
+// @type    GET
+// @route   /signup
+// @desc    route for getting profile pic by user _id
+// @access  PUBLIC
+router.get("/:id/profilepic", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (!user || !user.profilepic) {
+      throw new Error();
+    }
+
+    res.set("Content-Type", "image/png");
+    res.send(user.profilepic);
+  } catch (e) {
+    res.status(400).send();
   }
 });
 

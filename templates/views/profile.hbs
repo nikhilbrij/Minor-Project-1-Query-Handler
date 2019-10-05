@@ -13,37 +13,41 @@
   <!-- <link rel="stylesheet" href="css/style.css" /> -->
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/profile.css" />
+
 </head>
 
 <body>
   {{>nav}}
 
+  <section>
+
+    <div class=" col-md-12 mt-3">
+      <div id="dropzone" class="media">
+        <div class="pull-left">
+        </div>
+        <div class="container">
+          <div class="picture-container">
+            <form action="/profile/upload" method="POST" enctype="multipart/form-data">
+              <div class="picture">
+                <img src="http://localhost:5000/{{_id}}/profilepic" class="picture-src" id="wizardPicturePreview"
+                  title="">
+                <input type="file" name="profilepic" id="wizard-picture" class="" />
+              </div>
+          </div>
+          <div class="text-center mt-3" id="save-profile">
+            <button type="submit" class="btn btn-primary mb-2 ">
+              Upload
+            </button>
+          </div>
+          </form>
+        </div>
+      </div>
+  </section>
+
   </section>
   <div class="col-md-12">
     <form action="/profile" method="POST">
-      <div class="form-group" style="margin:45px">
-        <p class="settings-sub-heading" style="margin: 35px 0 25px 0;">
-          Profile picture
-        </p>
-        <div id="dropzone" class="media">
-          <div class="pull-left">
-            <div id="previews">
-              <img
-                src="https://learnyst-user-assets.s3.ap-south-1.amazonaws.com/assets/schools/2410/users/442411/IMG_20190101_173032132_q6WfU8.jpg"
-                style="height:120px;width:120px;" class="profile-image img-circle" />
-            </div>
-          </div>
-          <div class="media-body media-middle" style="padding-left:40px;">
-            <div id="user-img-up">
-              <input type="file" style="display:none" id="photo-chooser" accept="image/jpeg, image/jpg, image/png" />
-              <button type="button" class="btn btn-primary" style="cursor: pointer;">
-                Upload
-              </button>
-            </div>
-            <div id="preview-template" style="display: none;"></div>
-          </div>
-        </div>
-      </div>
+
       <hr style="border: 0;border-top: 2px solid #CACBD0; margin:20px 35px;opacity:0.4;" />
       <div class="row" style="margin:0 20px;" id="js-userInfo-form">
         <div class="col-md-4">
@@ -112,6 +116,7 @@
   </section>
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script>
@@ -121,6 +126,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
+  <script src="js/profilepic.js"></script>
 </body>
 
 </html>

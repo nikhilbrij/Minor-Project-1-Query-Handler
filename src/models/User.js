@@ -58,7 +58,10 @@ const userSchema = new mongoose.Schema({
         required: true
       }
     }
-  ]
+  ],
+  profilepic: {
+    type: Buffer
+  }
 });
 
 // Genrate Token for private routes
