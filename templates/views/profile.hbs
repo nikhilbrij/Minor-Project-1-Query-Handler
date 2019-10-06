@@ -10,6 +10,8 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+  <!-- Font  -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- <link rel="stylesheet" href="css/style.css" /> -->
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/profile.css" />
@@ -115,39 +117,7 @@
   </div>
   </section>
 
-
-  <!-- ADD POST MODAL -->
-  <div class="modal fade" id="addPostModal">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header bg-primary text-white">
-          <h5 class="modal-title">Ask Question</h5>
-          <button class="close" data-dismiss="modal">
-            <span>&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form action="/askQuestion" method="POST">
-            <div class="form-group">
-              <label for="title">Title</label>
-              <input type="text" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="Category">Category</label>
-              <input type="text" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="body">Problem Statement</label>
-              <textarea name="editor1" class="form-control"></textarea>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary" data-dismiss="modal">Submit</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  {{>askQuestion}}
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->

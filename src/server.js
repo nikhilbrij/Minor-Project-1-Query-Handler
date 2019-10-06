@@ -6,6 +6,7 @@ const hbs = require("hbs");
 const cookieParser = require("cookie-parser");
 require("./db/mongoose");
 const userRouter = require("./router/user");
+const questionRouter = require("./router/question");
 
 //Define Express
 const app = express();
@@ -37,6 +38,7 @@ app.use(express.json());
 
 //actual routes for Query Handler
 app.use(userRouter);
+app.use(questionRouter);
 
 app.listen(port, () => {
   console.log("Server is running at port " + port);
