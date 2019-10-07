@@ -16,51 +16,6 @@ const Question = require("../models/Question");
 
 let itemsPerPage = 6;
 
-// router.get("/question", async (req, res) => {
-//   const page = req.query.page;
-//   try {
-//     const questions = await Question.find()
-//       .skip((page - 1) * itemsPerPage)
-//       .limit(itemsPerPage)
-//       .sort({ date: "desc" });
-
-//     const title1 = questions[0].title;
-//     const category1 = questions[0].category;
-
-//     const title2 = questions[1].title;
-//     const category2 = questions[1].category;
-
-//     const title3 = questions[2].title;
-//     const category3 = questions[2].category;
-
-//     const title4 = questions[3].title;
-//     const category4 = question[3].category;
-
-//     const title5 = questions[4].title;
-//     const category5 = questions[4].category;
-
-//     const title6 = questions[5].title;
-//     const category6 = questions[5].category;
-//     // res.render("question", {
-//     //   title1,
-//     //   category1,
-//     //   title2,
-//     //   category2,
-//     //   title3,
-//     //   category3,
-//     //   title4,
-//     //   category4,
-//     //   title5,
-//     //   category5,
-//     //   title6,
-//     //   category6
-//     // });
-//     res.render("index");
-//   } catch (e) {
-//     res.send("No question found" + e);
-//   }
-// });
-
 router.get("/question", auth, async (req, res) => {
   const page = req.query.page;
   try {
@@ -68,41 +23,22 @@ router.get("/question", auth, async (req, res) => {
       .skip((page - 1) * itemsPerPage)
       .limit(itemsPerPage)
       .sort({ date: "desc" });
+    let name = [];
+    let title = [];
+    let category = [];
 
-    const title1 = questions[0].title;
-    const category1 = questions[0].category;
+    for (i of questions) {
+      name.push(i.name);
+      title.push(i.title);
+      category.push(i.category);
+    }
 
-    const title2 = questions[1].title;
-    const category2 = questions[1].category;
-
-    const title3 = questions[2].title;
-    const category3 = questions[2].category;
-
-    const title4 = questions[3].title;
-    const category4 = questions[3].category;
-
-    const title5 = questions[4].title;
-    const category5 = questions[4].category;
-
-    const title6 = questions[5].title;
-    const category6 = questions[5].category;
-    // res.send({ questions });
     res.render("question", {
-      title1,
-      category1,
-      title2,
-      category2,
-      title3,
-      category3,
-      title4,
-      category4,
-      title5,
-      category5,
-      title6,
-      category6,
-      hasQuestion: itemsPerPage > 0
+      name,
+      title,
+      category,
+      hasQuestion: questions.length > 0
     });
-    // res.render("index");
   } catch (e) {
     res.send("No question found" + e);
   }
@@ -115,6 +51,7 @@ router.get("/question", auth, async (req, res) => {
 
 router.post("/question", auth, async (req, res) => {
   const question = new Question({
+    name: req.user.name,
     user: req.user._id,
     title: req.body.title,
     category: req.body.category,
@@ -123,7 +60,39 @@ router.post("/question", auth, async (req, res) => {
 
   try {
     await question.save();
-    res.send({ question });
+    res.redirect("/question");
+  } catch (e) {
+    res.send(e);
+  }
+});
+
+//@type     GET
+//@route    /myQuestions
+//@desc     /route for indivisual users Questions
+//@access   /PRIVATE
+
+router.get("/myquestions", auth, async (req, res) => {
+  user_id = req.user._id;
+  page = req.query.page;
+
+  try {
+    const userQuestions = await Question.find({ user: user_id })
+      .skip((page - 1) * itemsPerPage)
+      .limit(itemsPerPage)
+      .sort({ date: "desc" });
+    let title = [];
+    let category = [];
+
+    for (i of userQuestions) {
+      title.push(i.title);
+      category.push(i.category);
+    }
+
+    res.render("myquestion", {
+      title,
+      category,
+      hasQuestion: userQuestions.length > 0
+    });
   } catch (e) {
     res.send(e);
   }
