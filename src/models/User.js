@@ -61,6 +61,10 @@ const userSchema = new mongoose.Schema({
   ],
   profilepic: {
     type: Buffer
+  },
+  date: {
+    type: Date,
+    default: Date.now
   }
 });
 

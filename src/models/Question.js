@@ -17,6 +17,11 @@ const QuestionSchema = new mongoose.Schema({
     required: true
   },
 
+  problem: {
+    type: String,
+    required: true
+  },
+
   editor1: {
     type: String,
     required: true
@@ -36,9 +41,16 @@ const QuestionSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "myUser"
       },
-      text: {
+      youranswer: {
         type: String,
         required: true
+      },
+      editor1: {
+        type: String,
+        required: true
+      },
+      name: {
+        type: String
       },
       date: {
         type: Date,
