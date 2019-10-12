@@ -7,8 +7,13 @@
 
 #questionDetails .voteButton {
   fill: #bbc0c4;
+  background-color: Transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
 }
 
-#questionDetails .btn {
+#questionDetails .btn .btn-primary {
   background: #007ed9;
 }

@@ -4,6 +4,7 @@ const multer = require("multer");
 const User = require("../models/User");
 const router = new express.Router();
 const auth = require("../middleware/jwt");
+
 // @type    GET
 // @route   /
 // @desc    route for home page
@@ -23,7 +24,7 @@ router.post("/signup", async (req, res) => {
   try {
     await user.save();
     const token = await user.genrateAuthToken(); //push Token in the deatabase
-    res.status(201).send({ user, token });
+    res.redirect("/");
   } catch (e) {
     res.send(e);
   }

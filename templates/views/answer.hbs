@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Title</title>
+    <title>Query Handler</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -21,6 +21,9 @@
 <body>
     {{!-- navigation bar --}}
     {{>nav}}
+
+    {{!-- ask question model --}}
+    {{!-- {{>askQuestion}} --}}
 
     <!-- Submit Answer MODAL -->
     <div class="modal fade" id="postAnswer">
@@ -67,14 +70,22 @@
                 </div>
 
                 <div class="col-md-1 voteButton">
-                    <svg aria-hidden="true" class="svg-icon m0 iconArrowUpLg" width="36" height="36"
-                        viewBox="0 0 36 36">
-                        <path d="M2 26h32L18 10 2 26z"></path>
-                    </svg>
-                    <svg aria-hidden="true" class="svg-icon m0 iconArrowDownLg" width="36" height="36"
-                        viewBox="0 0 36 36">
-                        <path d="M2 10h32L18 26 2 10z"></path>
-                    </svg>
+                    <form action="/questions/upvote/{{questionId}}" method="POST"> <button type="submit" class="btn">
+                            <svg aria-hidden="true" class="svg-icon m0 iconArrowUpLg" width="36" height="36"
+                                viewBox="0 0 36 36">
+                                <path d="M2 26h32L18 10 2 26z"></path>
+                            </svg>
+                        </button>
+                    </form>
+                    <form action="/questions/downvote/{{questionId}}" method="POST">
+
+                        <button type="submit" class="btn">
+                            <svg aria-hidden="true" class="svg-icon m0 iconArrowDownLg" width="36" height="36"
+                                viewBox="0 0 36 36">
+                                <path d="M2 10h32L18 26 2 10z"></path>
+                            </svg>
+                        </button>
+                    </form>
                 </div>
                 <div class="col-md-11 ">
                     {{problem}}
@@ -105,6 +116,7 @@
                     <hr style="border: 0;border-top: 2px solid #43BE31; margin:25px 0px;opacity:0.4;" />
 
                 </div>
+                {{#if totalAnswers.[0]}}
                 <div class="col-md-12 mb-4">
                     <img src="https://res-cdn.learnyst.com/pro/learning-apps/classroom/styles/images/lr-student.svg"
                         style=" height: 65px;margin-right: 0px;vertical-align: middle;width: 70px;"
@@ -130,6 +142,47 @@
                     {{totalAnswers.[0]}}
 
                 </div>
+                <div class="col-md-1">
+
+                </div>
+
+                <div class="col-md-11 mt-4 code">
+                    {{{totalCode.[0]}}}
+                </div>
+                <div class="col-md-12">
+
+                    <hr style="border: 0;border-top: 2px solid rgb(27, 28, 32); margin:25px 0px;opacity:0.4;" />
+                </div>
+                {{/if}}
+
+                {{#if totalAnswers.[1]}}
+
+                <div class="col-md-12 mb-4">
+                    <img src="https://res-cdn.learnyst.com/pro/learning-apps/classroom/styles/images/lr-student.svg"
+                        style=" height: 65px;margin-right: 0px;vertical-align: middle;width: 70px;"
+                        class="img-circle ml-4">
+                    <h5 class="mt-2">{{totalUserNameForAnswers.[1]}}</h5>
+
+                </div>
+
+                <div class="col-md-1 voteButton">
+                    <svg aria-hidden="true" class="svg-icon m0 iconArrowUpLg" width="36" height="36"
+                        viewBox="0 0 36 36">
+                        <path d="M2 26h32L18 10 2 26z"></path>
+                    </svg>
+                    <svg aria-hidden="true" class="svg-icon m0 iconArrowDownLg" width="36" height="36"
+                        viewBox="0 0 36 36">
+                        <path d="M2 10h32L18 26 2 10z"></path>
+                    </svg>
+                </div>
+
+                <div class="col-md-11 ">
+                    {{totalAnswers.[1]}}
+
+                </div>
+                <div class="col-md-1">
+
+                </div>
 
                 <div class="col-md-11 mt-4 code">
                     {{{totalCode.[1]}}}
@@ -138,16 +191,196 @@
 
                     <hr style="border: 0;border-top: 2px solid rgb(27, 28, 32); margin:25px 0px;opacity:0.4;" />
                 </div>
+                {{/if}}
+
+                {{#if totalAnswers.[2]}}
+                <div class="col-md-12 mb-4">
+                    <img src="https://res-cdn.learnyst.com/pro/learning-apps/classroom/styles/images/lr-student.svg"
+                        style=" height: 65px;margin-right: 0px;vertical-align: middle;width: 70px;"
+                        class="img-circle ml-4">
+                    <h5 class="mt-2">{{totalUserNameForAnswers.[2]}}</h5>
+
+                </div>
+
+                <div class="col-md-1 voteButton">
+                    <svg aria-hidden="true" class="svg-icon m0 iconArrowUpLg" width="36" height="36"
+                        viewBox="0 0 36 36">
+                        <path d="M2 26h32L18 10 2 26z"></path>
+                    </svg>
+                    <svg aria-hidden="true" class="svg-icon m0 iconArrowDownLg" width="36" height="36"
+                        viewBox="0 0 36 36">
+                        <path d="M2 10h32L18 26 2 10z"></path>
+                    </svg>
+                </div>
+
+                <div class="col-md-11 ">
+                    {{totalAnswers.[2]}}
+
+                </div>
+                <div class="col-md-1">
+
+                </div>
+
+                <div class="col-md-11 mt-4 code">
+                    {{{totalCode.[2]}}}
+                </div>
+                <div class="col-md-12">
+
+                    <hr style="border: 0;border-top: 2px solid rgb(27, 28, 32); margin:25px 0px;opacity:0.4;" />
+                </div>
+                {{/if}}
+
+                {{#if totalAnswers.[3]}}
+
+                <div class="col-md-12 mb-4">
+                    <img src="https://res-cdn.learnyst.com/pro/learning-apps/classroom/styles/images/lr-student.svg"
+                        style=" height: 65px;margin-right: 0px;vertical-align: middle;width: 70px;"
+                        class="img-circle ml-4">
+                    <h5 class="mt-2">{{totalUserNameForAnswers.[3]}}</h5>
+
+                </div>
+
+                <div class="col-md-1 voteButton">
+                    <svg aria-hidden="true" class="svg-icon m0 iconArrowUpLg" width="36" height="36"
+                        viewBox="0 0 36 36">
+                        <path d="M2 26h32L18 10 2 26z"></path>
+                    </svg>
+                    <svg aria-hidden="true" class="svg-icon m0 iconArrowDownLg" width="36" height="36"
+                        viewBox="0 0 36 36">
+                        <path d="M2 10h32L18 26 2 10z"></path>
+                    </svg>
+                </div>
+
+                <div class="col-md-11 ">
+                    {{totalAnswers.[3]}}
+
+                </div>
+                <div class="col-md-1">
+
+                </div>
+
+                <div class="col-md-11 mt-4 code">
+                    {{{totalCode.[3]}}}
+                </div>
+                <div class="col-md-12">
+
+                    <hr style="border: 0;border-top: 2px solid rgb(27, 28, 32); margin:25px 0px;opacity:0.4;" />
+                </div>
+                {{/if}}
+
+                {{#if totalAnswers.[4]}}
+                <div class="col-md-12 mb-4">
+                    <img src="https://res-cdn.learnyst.com/pro/learning-apps/classroom/styles/images/lr-student.svg"
+                        style=" height: 65px;margin-right: 0px;vertical-align: middle;width: 70px;"
+                        class="img-circle ml-4">
+                    <h5 class="mt-2">{{totalUserNameForAnswers.[4]}}</h5>
+
+
+
+                </div>
+
+                <div class="col-md-1 voteButton">
+                    <svg aria-hidden="true" class="svg-icon m0 iconArrowUpLg" width="36" height="36"
+                        viewBox="0 0 36 36">
+                        <path d="M2 26h32L18 10 2 26z"></path>
+                    </svg>
+                    <svg aria-hidden="true" class="svg-icon m0 iconArrowDownLg" width="36" height="36"
+                        viewBox="0 0 36 36">
+                        <path d="M2 10h32L18 26 2 10z"></path>
+                    </svg>
+                </div>
+
+
+
+                <div class="col-md-11 ">
+                    {{totalAnswers.[4]}}
+
+                </div>
+                <div class="col-md-1">
+
+                </div>
+
+                <div class="col-md-11 mt-4 code">
+                    {{{totalCode.[4]}}}
+                </div>
+                <div class="col-md-12">
+
+                    <hr style="border: 0;border-top: 2px solid rgb(27, 28, 32); margin:25px 0px;opacity:0.4;" />
+                </div>
+                {{/if}}
+
+                {{#if totalAnswers.[5]}}
+                <div class="col-md-12 mb-4">
+                    <img src="https://res-cdn.learnyst.com/pro/learning-apps/classroom/styles/images/lr-student.svg"
+                        style=" height: 65px;margin-right: 0px;vertical-align: middle;width: 70px;"
+                        class="img-circle ml-4">
+                    <h5 class="mt-2">{{totalUserNameForAnswers.[5]}}</h5>
+
+
+
+                </div>
+
+                <div class="col-md-1 voteButton">
+                    <svg aria-hidden="true" class="svg-icon m0 iconArrowUpLg" width="36" height="36"
+                        viewBox="0 0 36 36">
+                        <path d="M2 26h32L18 10 2 26z"></path>
+                    </svg>
+                    <svg aria-hidden="true" class="svg-icon m0 iconArrowDownLg" width="36" height="36"
+                        viewBox="0 0 36 36">
+                        <path d="M2 10h32L18 26 2 10z"></path>
+                    </svg>
+                </div>
+
+                <div class="col-md-11 ">
+                    {{totalAnswers.[5]}}
+
+                </div>
+
+                <div class="col-md-1">
+
+                </div>
+
+                <div class="col-md-11 mt-4 code">
+                    {{{totalCode.[5]}}}
+                </div>
+                <div class="col-md-12">
+
+                    <hr style="border: 0;border-top: 2px solid rgb(27, 28, 32); margin:25px 0px;opacity:0.4;" />
+                </div>
+                {{/if}}
 
             </div>
         </div>
     </section>
 
+    <!-- PAGINATION -->
+    <nav class="ml-4 ">
+        <div class="container">
+            <div class="row">
+                <ul class="pagination">
+                    <li class="page-item ">
+                        <a href="" class="page-link">Previous</a>
+                    </li>
+                    <li class="page-item ">
+                        <a href="/myquestions?page=1" class="page-link">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="/myquestions?page=2" class="page-link">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="/myquestions?page=3" class="page-link">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="#" class="page-link">Next</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script>
-        config.allowedContent = true;
-    </script>
+
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -159,10 +392,12 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
     <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+
     <script>
 
         CKEDITOR.replace('editor1');
     </script>
+
 
 </body>
 

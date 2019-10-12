@@ -204,15 +204,16 @@
           </button>
         </div>
         <div class="modal-body">
-          <form action="/" method="POST">
+          <form action="/" method="POST" class="needs-validation" novalidate>
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" name="email" placeholder="email" class="form-control">
-              <p>{{errorMsg}}</p>
+              <input type="email" name="email" placeholder="email" class="form-control" required>
+              <div class="invalid-feedback">Please fill out this field.</div>
             </div>
             <div class="form-group">
               <label for="password">Password</label>
-              <input type="password" name="password" placeholder="password" class="form-control">
+              <input type="password" name="password" placeholder="password" class="form-control" required>
+              <div class="invalid-feedback">Please fill out this field.</div>
             </div>
             <div class="modal-footer">
               <button class="btn btn-primary btn-block" type="submit">Login</button>
@@ -237,26 +238,31 @@
           </button>
         </div>
         <div class="modal-body">
-          <form action="/signup" method="POST">
+          <form action="/signup" method="POST" class="needs-validation" novalidate>
             <div class="form-group">
               <label for="username">Usename</label>
-              <input type="text" name="username" placeholder="username" class="form-control">
+              <input type="text" name="username" placeholder="username" class="form-control" required>
+              <div class="invalid-feedback">please fill out this field</div>
             </div>
             <div class="form-group">
               <label for="name">Name</label>
-              <input type="text" name="name" placeholder="name" class="form-control">
+              <input type="text" name="name" placeholder="name" class="form-control" required>
+              <div class="invalid-feedback">please fill out this field</div>
             </div>
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" name="email" placeholder="email" class="form-control">
+              <input type="email" name="email" placeholder="email" class="form-control" required>
+              <div class="invalid-feedback">please fill out this field</div>
             </div>
             <div class="form-group">
               <label for="password">Password</label>
-              <input type="password" name="password" placeholder="password" class="form-control">
+              <input type="password" name="password" placeholder="password" class="form-control" id="password" required>
+              <div class="invalid-feedback">please fill out this field</div>
             </div>
             <div class="form-group">
               <label for="confirm password">Confirm password</label>
-              <input type="password" placeholder="confirm password" class="form-control">
+              <input type="password" placeholder="confirm password" class="form-control" id="confirmPassword" required>
+              <div class="invalid-feedback">confirm password are not matching</div>
             </div>
             <div class="modal-footer">
               <button class="btn btn-primary btn-block" type="submit">Signup</button>
@@ -276,6 +282,42 @@
     });
   </script>
 
+  <script>
+    // Disable form submissions if there are invalid fields
+    (function () {
+      'use strict';
+      window.addEventListener('load', function () {
+        // Get the forms we want to add validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function (form) {
+          form.addEventListener('submit', function (event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+  </script>
+
+  <script>
+    var password = document.getElementById("password")
+      , confirmPassword = document.getElementById("confirmPassword");
+
+    function validatePassword() {
+      if (password.value != confirmPassword.value) {
+        confirmPassword.setCustomValidity("Passwords Don't Match");
+      } else {
+        confirmPassword.setCustomValidity('');
+      }
+    }
+
+    password.onchange = validatePassword;
+    confirmPassword.onkeyup = validatePassword;
+  </script>
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src=" https://code.jquery.com/jquery-3.3.1.slim.min.js "
     integrity=" sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo "

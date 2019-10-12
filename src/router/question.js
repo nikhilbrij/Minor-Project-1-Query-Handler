@@ -86,13 +86,17 @@ router.get("/myquestions", auth, async (req, res) => {
       .sort({ date: "desc" });
     let title = [];
     let category = [];
+    let questions_Id = [];
 
     for (i of userQuestions) {
       title.push(i.title);
       category.push(i.category);
+      questions_Id.push(i._id);
     }
 
     res.render("myquestion", {
+      questions_Id,
+      user_id,
       title,
       category,
       hasQuestion: userQuestions.length > 0
@@ -101,6 +105,11 @@ router.get("/myquestions", auth, async (req, res) => {
     res.send(e);
   }
 });
+
+//@type     GET
+//@route    /question/:id/details
+//@desc     /route for get the answers
+//@access   /PRIVATE
 
 router.get("/question/:id/:details", auth, async (req, res) => {
   const questionTitle = req.params.details.replace(/%20/g, " ");
@@ -137,6 +146,11 @@ router.get("/question/:id/:details", auth, async (req, res) => {
   }
 });
 
+//@type     GET
+//@route    /question/answer/:id
+//@desc     /route for submitting answer
+//@access   /PRIVATE
+
 router.post("/question/answer/:id", auth, async (req, res) => {
   const questions_Id = req.params.id;
   try {
@@ -147,12 +161,46 @@ router.post("/question/answer/:id", auth, async (req, res) => {
       youranswer: req.body.yourAnswer,
       editor1: req.body.editor1
     };
+    const questionTitle = question.title;
 
     question.answers.unshift(newAnswer);
     await question.save();
-    res.redirect("/question/:id/:details");
+
+    res.redirect(`/question/${question._id}/${questionTitle}`);
   } catch (e) {
     res.send(e);
+  }
+});
+
+// @type    POST
+//@route    /questions/upvote/:id
+// @desc    route for for upvoting
+// @access  PRIVATE
+router.post("/questions/upvote/:id", auth, async (req, res) => {
+  try {
+    const userProfile = await User.findOne({ user: req.user._id });
+
+    const question = await Question.findById(req.params.id);
+    if (
+      question.upvotes.filter(
+        upvote => upvote.user.toString() === req.user.id.toString()
+      ).length > 0
+    ) {
+      // var index = question.upvotes.indexOf(req.user._id);
+      // console.log(index);
+      // question.upvotes.splice(index, 1);
+      // console.log(question);
+      question.upvotes.pop({ user: req.user });
+
+      question.save();
+      // res.send(question);
+    }
+
+    question.upvotes.unshift({ user: req.user._id });
+    await question.save();
+    res.send(question);
+  } catch (e) {
+    res.status(400).send(e);
   }
 });
 
