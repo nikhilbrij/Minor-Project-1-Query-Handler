@@ -39,11 +39,16 @@
                     <form action="/question/answer/{{questionId}}" method="POST">
                         <div class="form-group">
                             <label for="youranswer">Your Answer </label>
-                            <input type="text" name="yourAnswer" placeholder="Your Answer" class="form-control">
+                            <input type="text" name="yourAnswer" placeholder="Your Answer" class="form-control"
+                                required>
+                            <div class="invalid-feedback">please fill out this field</div>
+
                         </div>
                         <div class="form-group">
                             <label for="body">Modified Answer / Code</label>
-                            <textarea name="editor1" class="form-control"></textarea>
+                            <textarea name="editor1" class="form-control" required></textarea>
+                            <div class="invalid-feedback">please fill out this field</div>
+
                         </div>
                 </div>
                 <div class="modal-footer">

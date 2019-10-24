@@ -13,19 +13,28 @@
                     <div class="form-group">
                         <label for="title">Title</label>
                         <input type="text" name="title" placeholder="what's your question? Be specific."
-                            class="form-control">
+                            class="form-control" required>
+                        <div class="invalid-feedback">please fill out this field</div>
+
                     </div>
                     <div class="form-group">
                         <label for="Category">Category</label>
-                        <input type="text" name="category" placeholder="eg.web development" class="form-control">
+                        <input type="text" name="category" placeholder="eg.web development" class="form-control"
+                            required>
+                        <div class="invalid-feedback">please fill out this field</div>
+
                     </div>
                     <div class="form-group">
                         <label for="problemStatement">Problem Statement </label>
-                        <input type="text" name="problemStatement" placeholder="problem statement" class="form-control">
+                        <input type="text" name="problemStatement" placeholder="problem statement" class="form-control"
+                            required>
+                        <div class="invalid-feedback">please fill out this field</div>
+
                     </div>
                     <div class="form-group">
                         <label for="body">Description / Code</label>
-                        <textarea name="editor1" class="form-control"></textarea>
+                        <textarea name="editor1" class="form-control" required></textarea>
+                        <div class="invalid-feedback">please fill out this field</div>
                     </div>
             </div>
             <div class="modal-footer">

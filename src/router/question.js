@@ -48,7 +48,7 @@ router.get("/question", auth, async (req, res) => {
 });
 
 //@type     GET
-//@route    /askQuestion
+//@route    /question
 //@desc     /route for submitting questions
 //@access   /PRIVATE
 
@@ -71,7 +71,7 @@ router.post("/question", auth, async (req, res) => {
 });
 
 //@type     GET
-//@route    /myQuestions
+//@route    /myquestions
 //@desc     /route for indivisual users Questions
 //@access   /PRIVATE
 
@@ -183,14 +183,15 @@ router.post("/questions/upvote/:id", auth, async (req, res) => {
     const question = await Question.findById(req.params.id);
     if (
       question.upvotes.filter(
-        upvote => upvote.user.toString() === req.user.id.toString()
+        upvote => upvote.user.toString() === req.user._id.toString()
       ).length > 0
     ) {
       // var index = question.upvotes.indexOf(req.user._id);
       // console.log(index);
       // question.upvotes.splice(index, 1);
-      // console.log(question);
+      console.log(question);
       question.upvotes.pop({ user: req.user });
+      console.log(req.user._id)
 
       question.save();
       // res.send(question);
